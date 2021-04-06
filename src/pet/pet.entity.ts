@@ -6,23 +6,29 @@ import { PetType } from './pet-type.enum';
 @Entity()
 export class Pet {
     @PrimaryGeneratedColumn('uuid')
-    id: string;
+    id!: string;
 
-    @Column()
+    @Column({ nullable: true })
     name: string;
 
     @Column()
-    type: PetType;
+    type!: PetType;
 
     @Column()
+    color!: string;
+
+    @Column()
+    location!: string;
+
+    @Column({ nullable: true })
     breed: string;
 
-    @Column()
+    @Column({ nullable: true })
     age: number;
 
     @Column()
-    gender: PetGender;
+    gender!: PetGender;
 
     @Column()
-    status: PetStatus;
+    status!: PetStatus;
 }

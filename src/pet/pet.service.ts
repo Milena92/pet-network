@@ -12,11 +12,22 @@ export class PetService {
     ) {}
 
     async createPet(createPetDto: CreatePetDto): Promise<Pet> {
-        const { name, type, breed, age, gender, status } = createPetDto;
+        const {
+            name,
+            type,
+            color,
+            location,
+            breed,
+            age,
+            gender,
+            status,
+        } = createPetDto;
 
         const pet = this.petRepository.create({
             name,
             type,
+            color,
+            location,
             breed,
             age,
             gender,
