@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreatePetDto } from './dto/create-pet.dto';
+import { PetStatus } from './pet-status.enum';
 import { Pet } from './pet.entity';
 
 @Injectable()
@@ -37,7 +38,7 @@ export class PetService {
         return this.petRepository.save(pet);
     }
 
-    async getAllPets(): Promise<Pet[]> {
-        return this.petRepository.find();
+    async getAllPets(status: PetStatus): Promise<Pet[]> {
+        return this.petRepository.find({ status });
     }
 }

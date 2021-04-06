@@ -16,6 +16,7 @@ import { UserModule } from './user/user.module';
             database: 'pet-network',
             autoLoadEntities: true,
             synchronize: true,
+            logging: true,
         }),
     ],
 })
