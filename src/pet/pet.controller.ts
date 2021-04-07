@@ -11,6 +11,7 @@ import {
     UsePipes,
     ValidationPipe,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { UpdatePetDto } from './dto/update-pet.dto';
 import { PetStatus } from './pet-status.enum';
@@ -18,6 +19,7 @@ import { Pet } from './pet.entity';
 import { PetService } from './pet.service';
 import { PetStatusValidationPipe } from './pipes/pet-status.validation.pipe';
 
+@ApiTags('pet')
 @Controller('pet')
 export class PetController {
     constructor(private petService: PetService) {}
