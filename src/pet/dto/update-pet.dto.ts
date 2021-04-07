@@ -1,33 +1,27 @@
-import {
-    IsEnum,
-    IsNotEmpty,
-    IsNumber,
-    IsOptional,
-    IsString,
-} from 'class-validator';
+import { IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
 import { PetGender } from '../pet-gender.enum';
 import { PetStatus } from '../pet-status.enum';
 import { PetType } from '../pet-type.enum';
 
-export class CreatePetDto {
+export class UpdatePetDto {
     @IsString()
     @IsOptional()
     name: string;
 
     @IsEnum(PetType, { message: 'Invalid pet type' })
-    @IsNotEmpty()
+    @IsOptional()
     type: PetType;
 
     @IsString()
-    @IsNotEmpty()
+    @IsOptional()
     color: string;
 
-    @IsNotEmpty()
     @IsString()
+    @IsOptional()
     location: string;
 
-    @IsOptional()
     @IsString()
+    @IsOptional()
     breed: string;
 
     @IsNumber()
@@ -35,10 +29,10 @@ export class CreatePetDto {
     age: number;
 
     @IsEnum(PetGender, { message: 'Invalid gender value' })
-    @IsNotEmpty()
+    @IsOptional()
     gender: PetGender;
 
     @IsEnum(PetStatus, { message: 'Invalid pet status' })
-    @IsNotEmpty()
+    @IsOptional()
     status: PetStatus;
 }
