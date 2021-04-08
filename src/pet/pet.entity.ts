@@ -34,4 +34,7 @@ export class Pet {
 
     @Column()
     status!: PetStatus;
+
+    @Column({ nullable: true })
+    pictureLocation: string;
 }

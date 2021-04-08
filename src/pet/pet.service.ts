@@ -5,6 +5,7 @@ import { CreatePetDto } from './dto/create-pet.dto';
 import { UpdatePetDto } from './dto/update-pet.dto';
 import { PetStatus } from './pet-status.enum';
 import { Pet } from './pet.entity';
+import * as fs from 'fs';
 
 @Injectable()
 export class PetService {
@@ -77,8 +78,32 @@ export class PetService {
             status,
         });
         try {
-            const updateResult = await this.petRepository.update(id, pet);
+            const toUpdate = await this.petRepository.findOne({ id });
+            await this.petRepository.update(toUpdate, pet);
         } catch (error) {
+            throw new NotFoundException(`Pet with ${id} is not found`);
+        }
+        return pet;
+    }
+
+    async uploadPhoto(id: string, file: Express.Multer.File): Promise<Pet> {
+        const pictureLocation = file.destination + file.filename;
+        const pet = this.petRepository.create({
+            pictureLocation,
+        });
+        try {
+            const toUpdate = await this.petRepository.findOne({ id });
+            const updateResult = await this.petRepository.update(
+                toUpdate.id,
+                pet,
+            );
+        } catch (error) {
+            fs.unlink(pictureLocation, (err) => {
+                if (err) {
+                    console.error(err);
+                    return;
+                }
+            });
             throw new NotFoundException(`Pet with id ${id} not found`);
         }
         return pet;
