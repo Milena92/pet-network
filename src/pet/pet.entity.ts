@@ -11,6 +11,9 @@ export class Pet {
     @Column({ nullable: true })
     name: string;
 
+    @Column({ nullable: true })
+    chipNumber: string;
+
     @Column()
     type!: PetType;
 

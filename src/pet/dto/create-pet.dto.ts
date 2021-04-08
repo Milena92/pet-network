@@ -17,6 +17,11 @@ export class CreatePetDto {
     name: string;
 
     @ApiProperty()
+    @IsString()
+    @IsOptional()
+    chipNumber: string;
+
+    @ApiProperty()
     @IsEnum(PetType, { message: 'Invalid pet type' })
     @IsNotEmpty()
     type: PetType;

@@ -19,7 +19,7 @@ import { Pet } from './pet.entity';
 import { PetService } from './pet.service';
 import { PetStatusValidationPipe } from './pipes/pet-status.validation.pipe';
 
-@ApiTags('pet')
+@ApiTags()
 @Controller('pet')
 export class PetController {
     constructor(private petService: PetService) {}

@@ -16,6 +16,7 @@ export class PetService {
     async createPet(createPetDto: CreatePetDto): Promise<Pet> {
         const {
             name,
+            chipNumber,
             type,
             color,
             location,
@@ -27,6 +28,7 @@ export class PetService {
 
         const pet = this.petRepository.create({
             name,
+            chipNumber,
             type,
             color,
             location,
@@ -53,6 +55,7 @@ export class PetService {
     async updatePet(id: string, updatePetDto: UpdatePetDto): Promise<Pet> {
         const {
             name,
+            chipNumber,
             type,
             color,
             location,
@@ -64,6 +67,7 @@ export class PetService {
 
         const pet = this.petRepository.create({
             name,
+            chipNumber,
             type,
             color,
             location,
@@ -77,7 +81,6 @@ export class PetService {
         } catch (error) {
             throw new NotFoundException(`Pet with id ${id} not found`);
         }
-
         return pet;
     }
 }

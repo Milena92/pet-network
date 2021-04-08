@@ -12,6 +12,11 @@ export class UpdatePetDto extends PartialType(CreatePetDto) {
     name: string;
 
     @ApiProperty()
+    @IsString()
+    @IsOptional()
+    chipNumber: string;
+
+    @ApiProperty()
     @IsEnum(PetType, { message: 'Invalid pet type' })
     @IsOptional()
     type: PetType;
