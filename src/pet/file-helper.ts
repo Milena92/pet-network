@@ -14,4 +14,16 @@ export class FileHelper {
     static destinationPath(req, file, cb) {
         cb(null, 'C:\\Users\\Asus\\Desktop\\images\\');
     }
+
+    static fileFilter(req, file, cb) {
+        if (
+            file.mimetype == 'image/png' ||
+            file.mimetype == 'image/jpg' ||
+            file.mimetype == 'image/jpeg'
+        ) {
+            cb(null, true);
+        } else {
+            cb(null, false);
+        }
+    }
 }

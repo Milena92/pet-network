@@ -1,4 +1,5 @@
 import {
+    BadRequestException,
     Body,
     Controller,
     Delete,
@@ -28,13 +29,14 @@ import { PetStatusValidationPipe } from './pipes/pet-status.validation.pipe';
 export class PetController {
     constructor(private petService: PetService) {}
 
-    @Post('/:id/photo')
+    @Post('/photo/:id')
     @UseInterceptors(
         FileInterceptor('picture', {
             storage: diskStorage({
                 destination: FileHelper.destinationPath,
                 filename: FileHelper.customFileName,
             }),
+            fileFilter: FileHelper.fileFilter,
         }),
     )
     async uploadPetPhoto(
