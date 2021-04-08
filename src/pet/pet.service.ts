@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+    BadRequestException,
+    Injectable,
+    NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreatePetDto } from './dto/create-pet.dto';
@@ -87,6 +91,9 @@ export class PetService {
     }
 
     async uploadPhoto(id: string, file: Express.Multer.File): Promise<Pet> {
+        if (file === undefined) {
+            throw new BadRequestException('Invalid file.');
+        }
         const pictureLocation = file.destination + file.filename;
         const pet = this.petRepository.create({
             pictureLocation,
