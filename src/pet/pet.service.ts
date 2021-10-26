@@ -7,7 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { UpdatePetDto } from './dto/update-pet.dto';
-import { PetStatus } from './pet-status.enum';
+import { PetStatus } from './enum/pet-status.enum';
 import { Pet } from './pet.entity';
 import * as fs from 'fs';
 
@@ -17,6 +17,13 @@ export class PetService {
         @InjectRepository(Pet)
         private petRepository: Repository<Pet>,
     ) {}
+
+    async getPetById(id: string): Promise<Pet> {
+        if (!id) {
+            throw new NotFoundException(`Pet with id: ${id} not found`);
+        }
+        return this.petRepository.findOne(id);
+    }
 
     async createPet(createPetDto: CreatePetDto): Promise<Pet> {
         const {
@@ -46,7 +53,10 @@ export class PetService {
         return this.petRepository.save(pet);
     }
 
-    async getAllPets(status: PetStatus): Promise<Pet[]> {
+    async getAllPets(status?: PetStatus): Promise<Pet[]> {
+        if (!status) {
+            return this.petRepository.find();
+        }
         return this.petRepository.find({ status });
     }
 
@@ -90,14 +100,22 @@ export class PetService {
         return pet;
     }
 
-    async uploadPhoto(id: string, file: Express.Multer.File): Promise<Pet> {
-        if (file === undefined) {
+    async uploadPhotos(id: string, files: Express.Multer.File[]): Promise<Pet> {
+        if (files === undefined) {
             throw new BadRequestException('Invalid file.');
         }
-        const pictureLocation = file.destination + file.filename;
-        const pet = this.petRepository.create({
-            pictureLocation,
+
+        const images: string[] = new Array();
+
+        files.forEach((file) => {
+            const pictureLocation = file.destination + file.filename;
+            images.push(pictureLocation);
         });
+
+        const pet = this.petRepository.create({
+            images,
+        });
+
         try {
             const toUpdate = await this.petRepository.findOne({ id });
             const updateResult = await this.petRepository.update(
@@ -105,12 +123,16 @@ export class PetService {
                 pet,
             );
         } catch (error) {
-            fs.unlink(pictureLocation, (err) => {
-                if (err) {
-                    console.error(err);
-                    return;
-                }
+            files.forEach((file) => {
+                const pictureLocation = file.destination + file.filename;
+                fs.unlink(pictureLocation, (err) => {
+                    if (err) {
+                        console.error(err);
+                        return;
+                    }
+                });
             });
+
             throw new NotFoundException(`Pet with id ${id} not found`);
         }
         return pet;

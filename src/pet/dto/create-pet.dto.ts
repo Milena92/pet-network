@@ -6,9 +6,9 @@ import {
     IsOptional,
     IsString,
 } from 'class-validator';
-import { PetGender } from '../pet-gender.enum';
-import { PetStatus } from '../pet-status.enum';
-import { PetType } from '../pet-type.enum';
+import { PetGender } from '../enum/pet-gender.enum';
+import { PetStatus } from '../enum/pet-status.enum';
+import { PetType } from '../enum/pet-type.enum';
 
 export class CreatePetDto {
     @ApiPropertyOptional()
@@ -16,17 +16,17 @@ export class CreatePetDto {
     @IsOptional()
     name: string;
 
-    @ApiProperty()
+    @ApiPropertyOptional()
     @IsString()
     @IsOptional()
     chipNumber: string;
 
-    @ApiProperty()
+    @ApiProperty({ enum: PetType })
     @IsEnum(PetType, { message: 'Invalid pet type' })
     @IsNotEmpty()
     type: PetType;
 
-    @ApiProperty()
+    @ApiPropertyOptional()
     @IsString()
     @IsNotEmpty()
     color: string;
@@ -46,12 +46,12 @@ export class CreatePetDto {
     @IsOptional()
     age: number;
 
-    @ApiProperty()
+    @ApiProperty({ enum: PetGender })
     @IsEnum(PetGender, { message: 'Invalid gender value' })
     @IsNotEmpty()
     gender: PetGender;
 
-    @ApiProperty()
+    @ApiProperty({ enum: PetStatus })
     @IsEnum(PetStatus, { message: 'Invalid pet status' })
     @IsNotEmpty()
     status: PetStatus;

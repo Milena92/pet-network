@@ -1,8 +1,8 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
-import { PetGender } from '../pet-gender.enum';
-import { PetStatus } from '../pet-status.enum';
-import { PetType } from '../pet-type.enum';
+import { PetGender } from '../enum/pet-gender.enum';
+import { PetStatus } from '../enum/pet-status.enum';
+import { PetType } from '../enum/pet-type.enum';
 import { CreatePetDto } from './create-pet.dto';
 
 export class UpdatePetDto extends PartialType(CreatePetDto) {

@@ -1,14 +1,13 @@
-import {
-    ArgumentMetadata,
-    BadRequestException,
-    PipeTransform,
-} from '@nestjs/common';
-import { PetStatus } from '../pet-status.enum';
+import { BadRequestException, PipeTransform } from '@nestjs/common';
+import { PetStatus } from '../enum/pet-status.enum';
 
 export class PetStatusValidationPipe implements PipeTransform {
-    readonly allowedPetStatuses = [PetStatus.FOUND, PetStatus.LOST];
+    readonly allowedPetStatuses: string[] = [PetStatus.FOUND, PetStatus.LOST];
 
-    transform(value: any) {
+    transform(value: string) {
+        if (!value) {
+            return null;
+        }
         value = value.toUpperCase();
 
         if (!this.isStatusValid(value)) {
@@ -19,7 +18,7 @@ export class PetStatusValidationPipe implements PipeTransform {
         return value;
     }
 
-    private isStatusValid(status: any) {
+    private isStatusValid(status: string) {
         const idx = this.allowedPetStatuses.indexOf(status);
         return idx !== -1;
     }

@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { PetGender } from './pet-gender.enum';
-import { PetStatus } from './pet-status.enum';
-import { PetType } from './pet-type.enum';
+import { PetGender } from './enum/pet-gender.enum';
+import { PetStatus } from './enum/pet-status.enum';
+import { PetType } from './enum/pet-type.enum';
 
 @Entity()
 export class Pet {
@@ -35,6 +35,6 @@ export class Pet {
     @Column()
     status!: PetStatus;
 
-    @Column({ nullable: true })
-    pictureLocation: string;
+    @Column('text', { array: true, nullable: true })
+    images: string[];
 }
